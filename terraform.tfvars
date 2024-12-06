@@ -1,0 +1,5 @@
+resource_group_name         = "rg-aks-test"
+resource_group_location     = "East US"
+nodepool_name               = "aksnodeagent"
+aks_name                    = "akscluster111374"
+dns_prefix                  = "aksdnsprefix"
