@@ -1,0 +1,49 @@
+name: Deploy AKS Infrastructure
+
+on:
+  push:
+    branches:
+      - main  # Trigger workflow on push to the main branch
+  workflow_dispatch:  # Allow manual triggers
+
+jobs:
+  terraform-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: latest
+
+      # Step 3: Install Azure CLI
+      - name: Install Azure CLI
+        run: |
+          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+      # Step 4: Azure CLI Login via Device Code
+      - name: Azure CLI Login
+        run: |
+          az login --use-device-code
+
+      # Step 5: Set Azure Subscription
+      - name: Set Azure Subscription
+        run: |
+          az account set --subscription "<YOUR_SUBSCRIPTION_ID>"
+
+      # Step 6: Terraform Init
+      - name: Terraform Init
+        run: terraform init
+
+      # Step 7: Terraform Plan
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+
+      # Step 8: Terraform Apply
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan
