@@ -34,7 +34,7 @@ jobs:
       # Step 5: Set Azure Subscription
       - name: Set Azure Subscription
         run: |
-          az account set --subscription "<YOUR_SUBSCRIPTION_ID>"
+          az account set --subscription "1e768c0a-473a-477f-842b-3803260a8b0f"
 
       # Step 6: Terraform Init
       - name: Terraform Init
